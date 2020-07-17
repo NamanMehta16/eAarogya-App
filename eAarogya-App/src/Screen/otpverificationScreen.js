@@ -17,8 +17,8 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const { width: WIDTH } = Dimensions.get("window");
 
-const signupScreen = (props) => {
-  const [aadhar, setaadhar] = React.useState("");
+const otpverificationScreen = (props) => {
+  const [otp, setotp] = React.useState("");
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <View style={styles.logoContainer}>
@@ -28,29 +28,29 @@ const signupScreen = (props) => {
       <View style={styles.InputContainer}>
         <FontAwesome
           style={styles.Inputicon}
-          name="vcard"
+          name="mobile"
           size={25}
           color="grey"
         />
         <TextInput
           style={styles.Input}
-          placeholder={"Aadhar Number"}
+          placeholder={"Enter OTP"}
           placeholderTextColor={"white"}
           underlineColorAndroid="transparent"
-          onChangeText={(newValue) => setaadhar(newValue)}
+          onChangeText={(newValue) => setotp(newValue)}
         />
       </View>
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => props.navigation.navigate("OtpVerification")}
+        onPress={() => props.navigation.navigate("signupDetail")}
       >
         <Text style={styles.btntext}>Enter</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
 };
-export default signupScreen;
+export default otpverificationScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {

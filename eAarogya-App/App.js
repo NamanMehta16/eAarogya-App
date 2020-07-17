@@ -5,8 +5,10 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import signupScreen from "./src/Screen/signupScreen";
 import signinScreen from "./src/Screen/signinScreen";
+import signupdetailScreen from "./src/Screen/signupdetailScreen";
 import reportScreen from "./src/Screen/reportScreen";
 import permissionScreen from "./src/Screen/permissionScreen";
+import otpverificationScreen from "./src/Screen/otpverificationScreen";
 import accountScreen from "./src/Screen/accountScreen";
 
 import { FontAwesome } from "@expo/vector-icons";
@@ -15,6 +17,8 @@ const SwitchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
     signin: signinScreen,
     signup: signupScreen,
+    signupDetail: signupdetailScreen,
+    OtpVerification: otpverificationScreen,
   }),
   mainFlow: createBottomTabNavigator({
     report: {
