@@ -2,7 +2,6 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-
 import signupScreen from "./src/Screen/signupScreen";
 import signinScreen from "./src/Screen/signinScreen";
 import signupdetailScreen from "./src/Screen/signupdetailScreen";
@@ -10,7 +9,7 @@ import reportScreen from "./src/Screen/reportScreen";
 import permissionScreen from "./src/Screen/permissionScreen";
 import otpverificationScreen from "./src/Screen/otpverificationScreen";
 import accountScreen from "./src/Screen/accountScreen";
-
+import givePermission from "./src/Screen/givePermission";
 import { FontAwesome } from "@expo/vector-icons";
 
 const SwitchNavigator = createSwitchNavigator({
