@@ -13,7 +13,7 @@ export default function App() {
         <View style={styles.logoContainer}>
 
           <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Revoke Permission</Text>
+          <Text style={styles.logoText}>Get Records</Text>
         </View>
       </View>
       <View style={styles.InputContainer}>
@@ -23,19 +23,8 @@ export default function App() {
           size={25}
           color="grey"
         />
-        <TextInput
-          style={styles.Input}
-          placeholder={"Enter Doctor's ID"}
-          
-          underlineColorAndroid="transparent"
-        //onChangeText={}
-        />
-        <FontAwesome
-          style={styles.Inputicon1}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
+        
+        
         <TextInput
           style={styles.Input}
           placeholder={"Enter Medical ID"}
@@ -52,6 +41,7 @@ export default function App() {
     </ImageBackground>
   );
 };
+
 
 
 const styles = StyleSheet.create({
