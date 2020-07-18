@@ -6,7 +6,7 @@ import logo from './assets/logo.png';
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function App() {
+const revokePermission = () =>{
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <View>
@@ -52,7 +52,7 @@ export default function App() {
     </ImageBackground>
   );
 };
-
+export default revokePermission;
 
 const styles = StyleSheet.create({
   backgroundContainer: {

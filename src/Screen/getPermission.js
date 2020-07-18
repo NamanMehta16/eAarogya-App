@@ -6,7 +6,7 @@ import logo from './assets/logo.png';
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function App() {
+const getPermission = () =>{ 
   const [docID,setdocID]=useState([
     { name: 'DocID', id: '1' },
     { name: 'Organization', id: '2' }
@@ -38,6 +38,7 @@ export default function App() {
   );
 };
 
+export default getPermission;
 
 
 const styles = StyleSheet.create({
