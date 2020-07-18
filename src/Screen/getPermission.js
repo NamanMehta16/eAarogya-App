@@ -1,43 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Dimensions, TextInput, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, Image, Dimensions, TextInput, TouchableOpacity, FlatList} from 'react-native';
 import bg from './assets/bg.jpg';
 import logo from './assets/logo.png';
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
 
 export default function App() {
+  const [docID,setdocID]=useState([
+    { name: 'DocID', id: '1' },
+    { name: 'Organization', id: '2' }
+  ]);
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <View>
         <View style={styles.logoContainer}>
-
           <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Get Records</Text>
         </View>
       </View>
-      <View style={styles.InputContainer}>
-        <FontAwesome
-          style={styles.Inputicon}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-        
-        
-        <TextInput
-          style={styles.Input}
-          placeholder={"Enter Medical ID"}
-          underlineColorAndroid="transparent"
-        //onChangeText={}
-        />
-      </View>
+
       <TouchableOpacity
         style={styles.button}
       //onPress={() => props.navigation.navigate("")}
       >
-        <Text style={styles.btntext}>Submit</Text>
+        <Text style={styles.btntext}>Get Permission</Text>
       </TouchableOpacity>
+
+      <FlatList
+        numColumns={2}
+        keyExtractor={(item)=>item.id}
+        data={docID}
+        renderItem={({item})=>(
+          <Text style={styles.item}>{item.name}</Text>
+        )}
+      />
     </ImageBackground>
   );
 };
@@ -52,19 +48,26 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
   },
+  item:{
+    margin:40,
+    fontWeight:"100",
+    fontSize:30,
+    color:'gray',
+
+  },
   logo: {
     width: 200,
     height: 200,
   },
   logoContainer: {
     alignItems: "center",
-    marginBottom: 50,
+    marginBottom: 0,
   },
   logoText: {
     fontSize: 30,
     fontWeight: "500",
     opacity: 0.5,
-    marginTop: 10,
+    marginTop: 50,
   },
   Input: {
     marginBottom:10,
