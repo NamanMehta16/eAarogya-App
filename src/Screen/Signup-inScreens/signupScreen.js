@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Dimensions, TextInput, TouchableOpacity} from 'react-native';
-import bg from './assets/bg.jpg';
-import logo from './assets/logo.png';
-const { width: WIDTH } = Dimensions.get("window");
+import React from "react";
+import {
+  Text,
+  Button,
+  View,
+  ImageBackground,
+  StyleSheet,
+  Image,
+  TextInput,
+  Dimensions,
+  TouchableOpacity,
+  ImagePropTypes,
+} from "react-native";
+import bg from "../../../assets/bg1.jpg";
+import logo from "../../../assets/logo.png";
+
 import { FontAwesome } from "@expo/vector-icons";
 
-const givePermission = () =>{
+const { width: WIDTH } = Dimensions.get("window");
+
+const signupScreen = (props) => {
+  const [aadhar, setaadhar] = React.useState("");
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <View>
-        <View style={styles.logoContainer}>
-          
-          <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Give Permission</Text>
-        </View>
+      <View style={styles.logoContainer}>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.logoText}>eAarogya</Text>
       </View>
       <View style={styles.InputContainer}>
         <FontAwesome
@@ -25,36 +35,23 @@ const givePermission = () =>{
         />
         <TextInput
           style={styles.Input}
-          placeholder={"Doctor's ID"}
+          placeholder={"Aadhar Number"}
           placeholderTextColor={"white"}
           underlineColorAndroid="transparent"
-          //onChangeText={}
-        />
-        <FontAwesome
-          style={styles.Inputicon1}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-        <TextInput
-          style={styles.Input}
-          placeholder={"Medical ID"}
-          placeholderTextColor={"white"}
-          underlineColorAndroid="transparent"
-          //onChangeText={}
+          onChangeText={(newValue) => setaadhar(newValue)}
         />
       </View>
+
       <TouchableOpacity
         style={styles.button}
-        //onPress={() => props.navigation.navigate("")}
+        onPress={() => props.navigation.navigate("OtpVerification")}
       >
-        <Text style={styles.btntext}>Submit</Text>
+        <Text style={styles.btntext}>Enter</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
 };
-export default revokePermission;
-
+export default signupScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {
@@ -79,7 +76,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   Input: {
-    marginBottom:10,
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
@@ -95,11 +91,6 @@ const styles = StyleSheet.create({
   Inputicon: {
     position: "absolute",
     top: 8,
-    left: 37,
-  },
-  Inputicon1: {
-    position: "absolute",
-    top: 65,
     left: 37,
   },
   button: {

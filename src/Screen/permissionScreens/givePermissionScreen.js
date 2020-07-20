@@ -1,56 +1,77 @@
 import React from "react";
 import {
+  StyleSheet,
   Text,
-  Button,
   View,
   ImageBackground,
-  StyleSheet,
   Image,
-  TextInput,
   Dimensions,
+  TextInput,
   TouchableOpacity,
-  ImagePropTypes,
 } from "react-native";
-import bg from "../../assets/bg1.jpg";
-import logo from "../../assets/logo.png";
+import bg from "../../../assets/bg1.jpg";
+
+import logo from "../../../assets/logo.png";
+const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
 
-const { width: WIDTH } = Dimensions.get("window");
+const givePermissionScreen = (props) => {
+  const [docId, setdocId] = React.useState("");
+  const [medId, setmedId] = React.useState("");
+  const [data, setdata] = React.useState("");
 
-const otpverificationScreen = (props) => {
-  const [otp, setotp] = React.useState("");
+  var info = props.navigation.getParam("info", "");
+
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <View style={styles.logoContainer}>
-        <Image source={logo} style={styles.logo} />
-        <Text style={styles.logoText}>eAarogya</Text>
+      <View>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoText}>eAarogya</Text>
+          <Text style={styles.logoText}>Give Permission</Text>
+        </View>
       </View>
       <View style={styles.InputContainer}>
         <FontAwesome
           style={styles.Inputicon}
-          name="mobile"
+          name="vcard"
           size={25}
           color="grey"
         />
         <TextInput
           style={styles.Input}
-          placeholder={"Enter OTP"}
-          placeholderTextColor={"white"}
+          placeholder={"Enter Doctor's ID"}
           underlineColorAndroid="transparent"
-          onChangeText={(newValue) => setotp(newValue)}
+          value={info}
+          onChangeText={(newValue) => setdocId(newValue)}
+        />
+        <FontAwesome
+          style={styles.Inputicon1}
+          name="vcard"
+          size={25}
+          color="grey"
+        />
+        <TextInput
+          style={styles.Input}
+          placeholder={"Enter Medical ID"}
+          underlineColorAndroid="transparent"
+          onChangeText={(newValue) => setmedId(newValue)}
         />
       </View>
-
       <TouchableOpacity
         style={styles.button}
-        onPress={() => props.navigation.navigate("signupDetail")}
+        onPress={() => {
+          props.navigation.navigate("Scanner", { setdata: setdata });
+        }}
       >
-        <Text style={styles.btntext}>Enter</Text>
+        <Text style={styles.btntext}>Scan</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.btntext}>Submit</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
 };
-export default otpverificationScreen;
+export default givePermissionScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {
@@ -75,6 +96,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   Input: {
+    marginBottom: 10,
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
@@ -90,6 +112,11 @@ const styles = StyleSheet.create({
   Inputicon: {
     position: "absolute",
     top: 8,
+    left: 37,
+  },
+  Inputicon1: {
+    position: "absolute",
+    top: 65,
     left: 37,
   },
   button: {

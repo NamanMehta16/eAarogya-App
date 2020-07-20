@@ -1,48 +1,56 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Dimensions, TextInput, TouchableOpacity} from 'react-native';
-import bg from './assets/bg.jpg';
-import logo from './assets/logo.png';
-const { width: WIDTH } = Dimensions.get("window");
+import React from "react";
+import {
+  Text,
+  Button,
+  View,
+  ImageBackground,
+  StyleSheet,
+  Image,
+  TextInput,
+  Dimensions,
+  TouchableOpacity,
+  ImagePropTypes,
+} from "react-native";
+import bg from "../../../assets/bg1.jpg";
+import logo from "../../../assets/logo.png";
 import { FontAwesome } from "@expo/vector-icons";
 
-const getRecord = () => {
+const { width: WIDTH } = Dimensions.get("window");
+
+const otpverificationScreen = (props) => {
+  const [otp, setotp] = React.useState("");
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <View>
-        <View style={styles.logoContainer}>
-
-          <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Get Records</Text>
-        </View>
+      <View style={styles.logoContainer}>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.logoText}>eAarogya</Text>
       </View>
       <View style={styles.InputContainer}>
         <FontAwesome
           style={styles.Inputicon}
-          name="vcard"
+          name="mobile"
           size={25}
           color="grey"
         />
-        
-        
         <TextInput
           style={styles.Input}
-          placeholder={"Enter Medical ID"}
+          placeholder={"Enter OTP"}
+          placeholderTextColor={"white"}
           underlineColorAndroid="transparent"
-        //onChangeText={}
+          onChangeText={(newValue) => setotp(newValue)}
         />
       </View>
+
       <TouchableOpacity
         style={styles.button}
-      //onPress={() => props.navigation.navigate("")}
+        onPress={() => props.navigation.navigate("signupDetail")}
       >
-        <Text style={styles.btntext}>Submit</Text>
+        <Text style={styles.btntext}>Enter</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
 };
-export default getRecord;
-
+export default otpverificationScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {
@@ -67,7 +75,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   Input: {
-    marginBottom:10,
     width: WIDTH - 55,
     height: 45,
     borderRadius: 25,
@@ -85,11 +92,6 @@ const styles = StyleSheet.create({
     top: 8,
     left: 37,
   },
-  Inputicon1: {
-    position: "absolute",
-    top: 65,
-    left: 37,
-  },
   button: {
     width: WIDTH - 110,
     height: 45,
@@ -101,6 +103,6 @@ const styles = StyleSheet.create({
   btntext: {
     textAlign: "center",
     fontSize: 16,
-    color: "white",
+    color: "rgba(255,255,255,0.7)",
   },
 });

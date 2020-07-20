@@ -11,8 +11,9 @@ import {
   TouchableOpacity,
   ImagePropTypes,
 } from "react-native";
-import bg from "../../assets/bg1.jpg";
-import logo from "../../assets/logo.png";
+import bg from "../../../assets/bg1.jpg";
+import logo from "../../../assets/logo.png";
+
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 const { width: WIDTH } = Dimensions.get("window");

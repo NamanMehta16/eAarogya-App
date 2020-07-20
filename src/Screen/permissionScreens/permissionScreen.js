@@ -1,37 +1,38 @@
 import React from "react";
 import {
-  StyleSheet,
   Text,
   View,
   ImageBackground,
+  StyleSheet,
   Image,
-  Dimensions,
   TextInput,
+  Dimensions,
   TouchableOpacity,
+  ImagePropTypes,
 } from "react-native";
-import bg from "../../assets/bg1.jpg";
-
-const { width: WIDTH } = Dimensions.get("window");
+import bg from "../../../assets/bg1.jpg";
 import { FontAwesome } from "@expo/vector-icons";
+const { width: WIDTH } = Dimensions.get("window");
 
-const accountScreen = (props) => {
-  const [docId, setdocId] = React.useState("");
-  const [medId, setmedId] = React.useState("");
-
+const permissionScreen = (props) => {
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {
-          props.navigation.navigate("signin");
-        }}
+        onPress={() => props.navigation.navigate("givePermission")}
       >
-        <Text style={styles.btntext}>Logout</Text>
+        <Text style={styles.btntext}>Give Permission</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => props.navigation.navigate("revokePermission")}
+      >
+        <Text style={styles.btntext}>Revoke Permission</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
 };
-export default accountScreen;
+export default permissionScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
   },
-
   button: {
     width: WIDTH - 110,
     height: 45,

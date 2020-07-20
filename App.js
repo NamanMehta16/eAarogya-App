@@ -2,14 +2,19 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import signupScreen from "./src/Screen/signupScreen";
-import signinScreen from "./src/Screen/signinScreen";
-import signupdetailScreen from "./src/Screen/signupdetailScreen";
+
+import signupScreen from "./src/Screen/Signup-inScreens/signupScreen";
+import signinScreen from "./src/Screen/Signup-inScreens/signinScreen";
+import signupdetailScreen from "./src/Screen/Signup-inScreens/signupdetailScreen";
+import otpverificationScreen from "./src/Screen/Signup-inScreens/otpverificationScreen";
 import reportScreen from "./src/Screen/reportScreen";
-import permissionScreen from "./src/Screen/permissionScreen";
-import otpverificationScreen from "./src/Screen/otpverificationScreen";
+import permissionScreen from "./src/Screen/permissionScreens/permissionScreen";
+import revokePermissionScreen from "./src/Screen/permissionScreens/revokePermissionScreen";
+import givePermissionScreen from "./src/Screen/permissionScreens/givePermissionScreen";
+import givePermissionScanner from "./src/Screen/permissionScreens/givePermissionScanner";
+import revokePermissionScanner from "./src/Screen/permissionScreens/revokePermissionScanner";
 import accountScreen from "./src/Screen/accountScreen";
-import givePermission from "./src/Screen/givePermission";
+
 import { FontAwesome } from "@expo/vector-icons";
 
 const SwitchNavigator = createSwitchNavigator({
@@ -20,6 +25,22 @@ const SwitchNavigator = createSwitchNavigator({
     OtpVerification: otpverificationScreen,
   }),
   mainFlow: createBottomTabNavigator({
+    Permissions: createStackNavigator({
+      permission: {
+        screen: permissionScreen,
+        navigationOptions: {
+          tabBarLabel: "Permissions",
+          tabBarIcon: ({ tintColor }) => (
+            <FontAwesome name="ticket" size={24} color="black" />
+          ),
+        },
+      },
+      revokePermission: revokePermissionScreen,
+      givePermission: givePermissionScreen,
+      Scanner: givePermissionScanner,
+      Scaner: revokePermissionScanner,
+    }),
+
     report: {
       screen: reportScreen,
       navigationOptions: {
@@ -29,17 +50,18 @@ const SwitchNavigator = createSwitchNavigator({
         ),
       },
     },
-    permission: {
-      screen: permissionScreen,
+    account: {
+      screen: accountScreen,
       navigationOptions: {
-        tabBarLabel: "Permissions",
+        tabBarLabel: "Account",
         tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="ticket" size={24} color="black" />
+          <FontAwesome name="user" size={24} color="black" />
         ),
       },
     },
   }),
 });
+
 const AppContainer = createAppContainer(SwitchNavigator);
 
 export default AppContainer;
