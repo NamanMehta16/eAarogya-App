@@ -10,13 +10,15 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import AppContext from "../../Context/appContext";
 import bg from "../../../assets/bg1.jpg";
 import logo from "../../../assets/logo.png";
 
 import { FontAwesome } from "@expo/vector-icons";
 const { width: WIDTH } = Dimensions.get("window");
-
 const signinScreen = (props) => {
+  const { data, signin } = React.useContext(AppContext);
+
   const [username, setusername] = React.useState("");
   const [password, setpassword] = React.useState("");
   return (
@@ -58,7 +60,11 @@ const signinScreen = (props) => {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => props.navigation.navigate("mainFlow")}
+        onPress={() =>
+          signin(username, password, () => {
+            props.navigation.navigate("mainFlow");
+          })
+        }
       >
         <Text style={styles.btntext}>Login</Text>
       </TouchableOpacity>

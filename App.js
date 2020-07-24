@@ -11,9 +11,11 @@ import reportScreen from "./src/Screen/reportScreen";
 import permissionScreen from "./src/Screen/permissionScreens/permissionScreen";
 import revokePermissionScreen from "./src/Screen/permissionScreens/revokePermissionScreen";
 import givePermissionScreen from "./src/Screen/permissionScreens/givePermissionScreen";
-import givePermissionScanner from "./src/Screen/permissionScreens/givePermissionScanner";
+import givePermissionScanner from "./src/Screen/permissionScreens/givePermissionScreen";
 import revokePermissionScanner from "./src/Screen/permissionScreens/revokePermissionScanner";
+
 import accountScreen from "./src/Screen/accountScreen";
+import { AppProvider } from "./src/Context/appContext";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -64,4 +66,10 @@ const SwitchNavigator = createSwitchNavigator({
 
 const AppContainer = createAppContainer(SwitchNavigator);
 
-export default AppContainer;
+export default () => {
+  return (
+    <AppProvider>
+      <AppContainer />
+    </AppProvider>
+  );
+};
