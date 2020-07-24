@@ -5,12 +5,20 @@ import webserver from "../api/webServer";
 const AppContext = React.createContext();
 
 export const AppProvider = ({ children }) => {
-  const [data, setdata] = React.useState("hp");
+  const [data, setData] = React.useState("hp");
 
   const signin = async (username, password, callback) => {
-    const response = await webserver.post("/applogin", { username, password });
-    if (response.data === "hi") {
-      callback();
+    try {
+      const response = await webserver.post("/login", { username, password });
+      if (response.status == 200) {
+        setData(response.data.user)
+        console.log(data);
+        callback();
+      } else {
+        console.log(response.status);
+      }
+    } catch(e) {
+      console.log(e);
     }
   };
 
