@@ -10,27 +10,31 @@ import {
   TouchableOpacity,
 } from "react-native";
 import bg from "../../../assets/bg1.jpg";
-import webServer from '../../api/webServer';
-import AppContext from '../../Context/appContext';
+import webServer from "../../api/webServer";
+import AppContext from "../../Context/appContext";
 
 import logo from "../../../assets/logo.png";
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
 
 const givePermissionScreen = (props) => {
-  const [docId, setdocId] = React.useState('');
+  const [docId, setdocId] = React.useState("");
   const { data, signin } = React.useContext(AppContext);
 
   var info = props.navigation.getParam("info", "");
+  console.log(info);
   const givePermission = async () => {
     try {
       console.log(docId);
-      const response = await webServer.post('/give-permission', {doctorID: docId, username: data.username})
+      const response = await webServer.post("/give-permission", {
+        doctorID: docId,
+        username: data.username,
+      });
       console.log(response.data.message, response.status);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
@@ -58,7 +62,7 @@ const givePermissionScreen = (props) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          props.navigation.navigate("Scanner", { setdata: setdata });
+          props.navigation.navigate("QRCodeScanner");
         }}
       >
         <Text style={styles.btntext}>Scan</Text>

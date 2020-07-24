@@ -14,11 +14,26 @@ import bg from "../../../assets/bg1.jpg";
 import logo from "../../../assets/logo.png";
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
+import webServer from "../../api/webServer";
+import AppContext from "../../Context/appContext";
 
 const revokePermissionScreen = (props) => {
   const [docId, setdocId] = React.useState("");
-  const [medId, setmedId] = React.useState("");
+  const { data, signin } = React.useContext(AppContext);
   var info = props.navigation.getParam("info", "");
+  console.log(info);
+  const revokePermission = async () => {
+    try {
+      console.log(docId);
+      const response = await webServer.post("/revoke-permission", {
+        doctorID: docId,
+        username: data.username,
+      });
+      console.log(response.data.message, response.status);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <View>
@@ -39,19 +54,7 @@ const revokePermissionScreen = (props) => {
           placeholder={"Enter Doctor's ID"}
           underlineColorAndroid="transparent"
           onChangeText={(newValue) => setdocId(newValue)}
-          value={info}
-        />
-        <FontAwesome
-          style={styles.Inputicon1}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-        <TextInput
-          style={styles.Input}
-          placeholder={"Enter Medical ID"}
-          underlineColorAndroid="transparent"
-          onChangeText={(newValue) => setmedId(newValue)}
+          value={docId}
         />
       </View>
       <TouchableOpacity
@@ -62,7 +65,12 @@ const revokePermissionScreen = (props) => {
       >
         <Text style={styles.btntext}>Scan</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          revokePermission();
+        }}
+      >
         <Text style={styles.btntext}>Submit</Text>
       </TouchableOpacity>
     </ImageBackground>
