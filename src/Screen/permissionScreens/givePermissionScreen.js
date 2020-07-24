@@ -16,13 +16,13 @@ import AppContext from "../../Context/appContext";
 import logo from "../../../assets/logo.png";
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
-
 const givePermissionScreen = (props) => {
-  const [docId, setdocId] = React.useState("");
   const { data, signin } = React.useContext(AppContext);
-
   var info = props.navigation.getParam("info", "");
   console.log(info);
+
+  const [docId, setdocId] = React.useState(info);
+
   const givePermission = async () => {
     try {
       console.log(docId);
@@ -62,7 +62,7 @@ const givePermissionScreen = (props) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          props.navigation.navigate("QRCodeScanner");
+          props.navigation.replace("QRCodeScanner");
         }}
       >
         <Text style={styles.btntext}>Scan</Text>

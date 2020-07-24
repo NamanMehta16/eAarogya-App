@@ -6,6 +6,7 @@ const AppContext = React.createContext();
 
 export const AppProvider = ({ children }) => {
   const [data, setData] = React.useState("hp");
+  const [scan, setscan] = React.useState("");
 
   const signin = async (username, password, callback) => {
     try {
@@ -23,7 +24,7 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ data: data, signin }}>
+    <AppContext.Provider value={{ data: data, scan: scan, signin, Scan }}>
       {children}
     </AppContext.Provider>
   );

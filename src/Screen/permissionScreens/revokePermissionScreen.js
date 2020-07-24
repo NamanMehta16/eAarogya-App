@@ -18,10 +18,10 @@ import webServer from "../../api/webServer";
 import AppContext from "../../Context/appContext";
 
 const revokePermissionScreen = (props) => {
-  const [docId, setdocId] = React.useState("");
   const { data, signin } = React.useContext(AppContext);
   var info = props.navigation.getParam("info", "");
   console.log(info);
+  const [docId, setdocId] = React.useState(info);
   const revokePermission = async () => {
     try {
       console.log(docId);
@@ -29,7 +29,7 @@ const revokePermissionScreen = (props) => {
         doctorID: docId,
         username: data.username,
       });
-      console.log(response.data.message, response.status);
+      console.log(response.status);
     } catch (e) {
       console.log(e);
     }
@@ -60,7 +60,7 @@ const revokePermissionScreen = (props) => {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          props.navigation.navigate("Scaner");
+          props.navigation.replace("Scaner");
         }}
       >
         <Text style={styles.btntext}>Scan</Text>
