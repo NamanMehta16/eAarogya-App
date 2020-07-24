@@ -11,13 +11,13 @@ export const AppProvider = ({ children }) => {
     try {
       const response = await webserver.post("/login", { username, password });
       if (response.status == 200) {
-        setData(response.data.user)
-        console.log(data);
+        setData(response.data.user);
+        console.log(response.data.user);
         callback();
       } else {
         console.log(response.status);
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
