@@ -19,7 +19,13 @@ const permissionScreen = (props) => {
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => props.navigation.navigate("givePermission")}
+        onPress={() => props.navigation.navigate("viewPermission")}
+      >
+        <Text style={styles.btntext}>View Permissions</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => props.navigation.navigate("revokePermission")}
       >
         <Text style={styles.btntext}>Give Permission</Text>
       </TouchableOpacity>

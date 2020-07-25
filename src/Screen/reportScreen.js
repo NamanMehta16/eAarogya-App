@@ -10,12 +10,33 @@ import {
   TouchableOpacity,
 } from "react-native";
 import bg from "./../../assets/bg1.jpg";
+import webServer from '../api/webServer';
+import AppContext from '../Context/appContext';
 
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
 
 const reportScreen = () => {
-  const [medicalId, setmedicalId] = React.useState("");
+  const { data, signin } = React.useContext(AppContext);
+
+  const getReports = async () => {
+    try {
+      let response = await webServer.post('report-history', {medicalID: data._id});
+      console.log(response.data.reports);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const getPrescs = async () => {
+    try {
+      let response = await webServer.post('prescription-history', {medicalID: data._id});
+      console.log(response.data.prescs);
+    } catch (e) {
+      console.log(e);
+    } 
+  }
+
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <View>
@@ -24,24 +45,14 @@ const reportScreen = () => {
           <Text style={styles.logoText}>Get Records</Text>
         </View>
       </View>
-      <View style={styles.InputContainer}>
-        <FontAwesome
-          style={styles.Inputicon}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-
-        <TextInput
-          style={styles.Input}
-          placeholder={"Enter Medical ID"}
-          underlineColorAndroid="transparent"
-          onChangeText={(newValue) => setmedicalId(newValue)}
-        />
-      </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.btntext}>Submit</Text>
+      <View>
+      <TouchableOpacity style={styles.button} onPress={() => getReports()}>
+        <Text style={styles.btntext}>Get Reports</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => getPrescs()}>
+        <Text style={styles.btntext}>Get Prescriptions</Text>
+      </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 };

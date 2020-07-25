@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -13,67 +13,39 @@ import bg from "../../../assets/bg1.jpg";
 import webServer from "../../api/webServer";
 import AppContext from "../../Context/appContext";
 
-import logo from "../../../assets/logo.png";
 const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
-const givePermissionScreen = (props) => {
+const viewPermissionScreen = (props) => {
   const { data, signin } = React.useContext(AppContext);
-  var info = props.navigation.getParam("info", "");
-  console.log(info);
+  const [info, setinfo] = React.useState([]);
 
-  const [docId, setdocId] = React.useState(info);
-
-  const givePermission = async () => {
+  React.useEffect(async () => {
     try {
-      console.log(docId);
-      const response = await webServer.post("/give-permission", {
-        doctorID: docId,
-        username: data.username,
+      console.log(data.username);
+      const username = data.username;
+      const response = await webServer.post("/getPermission", {
+        username: username,
       });
-      console.log(response.data.message, response.status);
+
+      setinfo(response.data);
+      console.log(info);
     } catch (e) {
       console.log(e);
     }
-  };
+  });
 
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <View>
         <View style={styles.logoContainer}>
           <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Give Permission</Text>
+          <Text style={styles.logoText}></Text>
         </View>
       </View>
-      <View style={styles.InputContainer}>
-        <FontAwesome
-          style={styles.Inputicon}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-        <TextInput
-          style={styles.Input}
-          placeholder={"Enter Doctor's ID"}
-          underlineColorAndroid="transparent"
-          value={docId}
-          onChangeText={(newValue) => setdocId(newValue)}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          props.navigation.replace("QRCodeScanner");
-        }}
-      >
-        <Text style={styles.btntext}>Scan</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => givePermission()}>
-        <Text style={styles.btntext}>Submit</Text>
-      </TouchableOpacity>
     </ImageBackground>
   );
 };
-export default givePermissionScreen;
+export default viewPermissionScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {
