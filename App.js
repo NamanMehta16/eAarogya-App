@@ -13,6 +13,7 @@ import revokePermissionScreen from "./src/Screen/permissionScreens/revokePermiss
 import givePermissionScreen from "./src/Screen/permissionScreens/givePermissionScreen";
 import givePermissionScanner from "./src/Screen/permissionScreens/givePermissionScanner";
 import revokePermissionScanner from "./src/Screen/permissionScreens/revokePermissionScanner";
+import viewPermissionScreen from "./src/Screen/permissionScreens/viewPermissionScreen";
 
 import accountScreen from "./src/Screen/accountScreen";
 import { AppProvider } from "./src/Context/appContext";
@@ -41,6 +42,7 @@ const SwitchNavigator = createSwitchNavigator({
       givePermission: givePermissionScreen,
       QRCodeScanner: givePermissionScanner,
       Scaner: revokePermissionScanner,
+      viewPermission: viewPermissionScreen,
     }),
 
     report: {

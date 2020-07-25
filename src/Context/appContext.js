@@ -24,7 +24,7 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ data: data, scan: scan, signin, Scan }}>
+    <AppContext.Provider value={{ data: data, signin }}>
       {children}
     </AppContext.Provider>
   );
