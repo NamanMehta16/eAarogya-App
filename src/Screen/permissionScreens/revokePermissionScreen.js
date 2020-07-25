@@ -29,7 +29,7 @@ const revokePermissionScreen = (props) => {
         doctorID: docId,
         username: data.username,
       });
-      console.log(response.data.message, response.status);
+      console.log(response.status);
     } catch (e) {
       console.log(e);
     }
