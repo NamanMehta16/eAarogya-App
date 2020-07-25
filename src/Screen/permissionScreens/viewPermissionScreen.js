@@ -8,6 +8,7 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import bg from "../../../assets/bg1.jpg";
 import webServer from "../../api/webServer";
@@ -19,29 +20,44 @@ const viewPermissionScreen = (props) => {
   const { data, signin } = React.useContext(AppContext);
   const [info, setinfo] = React.useState([]);
 
-  React.useEffect(async () => {
+  React.useEffect(() => {
+    viewPermission();
+  });
+  const viewPermission = async () => {
     try {
       console.log(data.username);
       const username = data.username;
-      const response = await webServer.post("/getPermission", {
+      const response = await webServer.post("/view-permissions", {
         username: username,
       });
-
-      setinfo(response.data);
-      console.log(info);
+      setinfo(response.data.permissions);
     } catch (e) {
       console.log(e);
     }
-  });
-
+  };
+  viewPermission();
   return (
     <ImageBackground source={bg} style={styles.backgroundContainer}>
       <View>
         <View style={styles.logoContainer}>
           <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}></Text>
+          <Text style={styles.logoText}> Permissions</Text>
         </View>
       </View>
+      <FlatList
+        data={info}
+        // keyExtractor={(info) => info._id}
+        renderItem={({ item }) => {
+          return (
+            <View>
+              <Text>{item.name}</Text>
+              <Text>{item.org}</Text>
+              <Text>{item.type}</Text>
+              <Text>{item._id}</Text>
+            </View>
+          );
+        }}
+      />
     </ImageBackground>
   );
 };
