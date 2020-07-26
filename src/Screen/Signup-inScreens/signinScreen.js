@@ -14,6 +14,7 @@ import LogIn from "../../../assets/login.png";
 import { FontAwesome } from "@expo/vector-icons";
 import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from '@expo-google-fonts/ubuntu';
 import { LinearGradient } from 'expo-linear-gradient';
+import Loader from '../Loader';
 
 const { width: WIDTH } = Dimensions.get("window");
 const signinScreen = (props) => {
@@ -21,9 +22,11 @@ const signinScreen = (props) => {
   const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular})
   const [username, setusername] = React.useState("");
   const [password, setpassword] = React.useState("");
+  const [showLoader, setLoader] = React.useState(false)
   
-  if(!fontsLoaded)
-    return (<Text>Loading...</Text>)
+  if(!fontsLoaded){
+    return (<Loader/>)
+  }
   else
     return (
       <View style={styles.backgroundContainer}>
@@ -80,6 +83,7 @@ const signinScreen = (props) => {
         >
           <Text style={{...styles.btntext, color: '#0f4c75'}}>Sign Up</Text>
         </TouchableOpacity>
+        {showLoader ? <Loader/> : <View/>}
       </View>
     );
 };
