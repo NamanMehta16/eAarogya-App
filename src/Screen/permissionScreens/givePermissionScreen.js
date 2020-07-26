@@ -3,24 +3,23 @@ import {
   StyleSheet,
   Text,
   View,
-  ImageBackground,
-  Image,
   Dimensions,
-  TextInput,
-  TouchableOpacity,
+  Image,
 } from "react-native";
-import bg from "../../../assets/bg1.jpg";
+import { TextInput, IconButton, Button } from 'react-native-paper';
 import webServer from "../../api/webServer";
 import AppContext from "../../Context/appContext";
-
-import logo from "../../../assets/logo.png";
-const { width: WIDTH } = Dimensions.get("window");
 import { FontAwesome } from "@expo/vector-icons";
+import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from '@expo-google-fonts/ubuntu';
+import GrantPerm from '../../../assets/grant.png';
+
+const { width: WIDTH } = Dimensions.get("window");
+
 const givePermissionScreen = (props) => {
   const { data, signin } = React.useContext(AppContext);
   var info = props.navigation.getParam("info", "");
   console.log(info);
-
+  const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular})
   const [docId, setdocId] = React.useState(info);
 
   const givePermission = async () => {
@@ -36,66 +35,60 @@ const givePermissionScreen = (props) => {
     }
   };
 
-  return (
-    <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <View>
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Give Permission</Text>
+  if(!fontsLoaded) 
+    return (<Text>Loading...</Text>)
+  else 
+    return (
+      <View style={styles.backgroundContainer}>
+        <View style={styles.headContainer}>
+          <IconButton icon="ticket-account" size={35} color='#fff' style={{marginLeft: 10}}/>
+          <Text style={styles.headText}>Give Permission</Text>
         </View>
+        <View style={styles.InputContainer}>
+          <FontAwesome
+            style={styles.InputIcon}
+            name="vcard"
+            size={25}
+            color="#0f4c75"
+          />
+          <TextInput
+            style={styles.Input}
+            placeholder={"Enter Doctor's ID"}
+            value={docId}
+            onChangeText={(newValue) => setdocId(newValue)}
+          />
+        </View>
+        <Button mode="contained" style={styles.button} onPress={() => givePermission()}>Submit</Button>
+        <Button mode="contained" contentStyle={{fontFamily: 'Ubuntu_700Bold'}} icon="qrcode" style={styles.button} onPress={() => {props.navigation.replace("QRCodeScanner")}}>Scan</Button>
+        <Image source={GrantPerm} style={{height: 250, width: 250, marginTop:40}}/>
       </View>
-      <View style={styles.InputContainer}>
-        <FontAwesome
-          style={styles.Inputicon}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-        <TextInput
-          style={styles.Input}
-          placeholder={"Enter Doctor's ID"}
-          underlineColorAndroid="transparent"
-          value={docId}
-          onChangeText={(newValue) => setdocId(newValue)}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          props.navigation.replace("QRCodeScanner");
-        }}
-      >
-        <Text style={styles.btntext}>Scan</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => givePermission()}>
-        <Text style={styles.btntext}>Submit</Text>
-      </TouchableOpacity>
-    </ImageBackground>
-  );
+    );
 };
 export default givePermissionScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     width: null,
     height: null,
+    backgroundColor: '#fff'
   },
-  logo: {
-    width: 200,
-    height: 200,
+  headContainer: {
+    flexDirection: 'row',
+    width: '100%', 
+    height: 100, 
+    backgroundColor: '#0f4c75', 
+    borderBottomLeftRadius: 60, 
+    alignItems: 'center', 
+    justifyContent:'flex-start',
+    marginBottom: 10
   },
-  logoContainer: {
-    alignItems: "center",
-    marginBottom: 50,
-  },
-  logoText: {
+  headText: {
+    margin: 10,
+    color: '#fff',
     fontSize: 30,
-    fontWeight: "500",
-    opacity: 0.5,
-    marginTop: 10,
+    fontFamily: 'Ubuntu_700Bold'
   },
   Input: {
     marginBottom: 10,
@@ -104,34 +97,28 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     fontSize: 16,
     paddingLeft: 45,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    color: "rgba(255,255,255,0.7)",
+    backgroundColor: "transparent",
+    color: "#0f4c75",
     marginHorizontal: 25,
   },
   InputContainer: {
-    marginTop: 10,
+    marginTop: 70,
   },
-  Inputicon: {
+  InputIcon: {
     position: "absolute",
     top: 8,
     left: 37,
   },
-  Inputicon1: {
-    position: "absolute",
-    top: 65,
-    left: 37,
-  },
   button: {
-    width: WIDTH - 110,
-    height: 45,
-    borderRadius: 25,
-    backgroundColor: "rgba(23, 87, 148,0.9)",
+    width: WIDTH - 150,
     marginTop: 20,
     justifyContent: "center",
+    height: 45,
+    fontSize: 30,
   },
   btntext: {
     textAlign: "center",
     fontSize: 16,
-    color: "rgba(255,255,255,0.7)",
+    color: "#fff",
   },
 });

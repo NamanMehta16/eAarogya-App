@@ -3,25 +3,24 @@ import {
   StyleSheet,
   Text,
   View,
-  ImageBackground,
   Image,
-  Dimensions,
-  TextInput,
-  TouchableOpacity,
+  Dimensions
 } from "react-native";
-import bg from "../../../assets/bg1.jpg";
-
-import logo from "../../../assets/logo.png";
-const { width: WIDTH } = Dimensions.get("window");
+import { TextInput, IconButton, Button } from 'react-native-paper';
 import { FontAwesome } from "@expo/vector-icons";
 import webServer from "../../api/webServer";
 import AppContext from "../../Context/appContext";
+import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from '@expo-google-fonts/ubuntu';
+import RevokePerm from '../../../assets/revoke.png';
 
+const { width: WIDTH } = Dimensions.get("window");
 const revokePermissionScreen = (props) => {
   const { data, signin } = React.useContext(AppContext);
   var info = props.navigation.getParam("info", "");
   console.log(info);
+  const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular});
   const [docId, setdocId] = React.useState(info);
+
   const revokePermission = async () => {
     try {
       console.log(docId);
@@ -34,71 +33,62 @@ const revokePermissionScreen = (props) => {
       console.log(e);
     }
   };
-  return (
-    <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <View>
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Revoke Permission</Text>
+
+  if(!fontsLoaded)
+    return (<Text>Loading...</Text>)
+  else 
+    return (
+      <View style={styles.backgroundContainer}>
+        <View style={styles.headContainer}>
+            <IconButton icon="cancel" size={35} color='#fff' style={{marginLeft: 10}}/>
+            <Text style={styles.headText}>Revoke Permission</Text>
+          </View>
+        <View style={styles.InputContainer}>
+          <FontAwesome
+            style={styles.Inputicon}
+            name="vcard"
+            size={25}
+            color="#0f4c75"
+          />
+          <TextInput
+            style={styles.Input}
+            placeholder={"Enter Doctor's ID"}
+            underlineColorAndroid="transparent"
+            onChangeText={(newValue) => setdocId(newValue)}
+            value={docId}
+          />
         </View>
+        <Button mode="contained" style={styles.button} onPress={() => revokePermission()}>Submit</Button>
+        <Button mode="contained" icon="qrcode" style={styles.button} onPress={() => {props.navigation.replace("Scaner")}}>Scan</Button>
+        <Image source={RevokePerm} style={{height: 250, width: 250, marginTop:40}}/>
       </View>
-      <View style={styles.InputContainer}>
-        <FontAwesome
-          style={styles.Inputicon}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-        <TextInput
-          style={styles.Input}
-          placeholder={"Enter Doctor's ID"}
-          underlineColorAndroid="transparent"
-          onChangeText={(newValue) => setdocId(newValue)}
-          value={docId}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          props.navigation.replace("Scaner");
-        }}
-      >
-        <Text style={styles.btntext}>Scan</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          revokePermission();
-        }}
-      >
-        <Text style={styles.btntext}>Submit</Text>
-      </TouchableOpacity>
-    </ImageBackground>
-  );
+    );
 };
 export default revokePermissionScreen;
 
 const styles = StyleSheet.create({
   backgroundContainer: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     width: null,
     height: null,
+    backgroundColor: '#fff'
   },
-  logo: {
-    width: 200,
-    height: 200,
+  headContainer: {
+    flexDirection: 'row',
+    width: '100%', 
+    height: 100, 
+    backgroundColor: '#0f4c75', 
+    borderBottomLeftRadius: 60, 
+    alignItems: 'center', 
+    justifyContent:'flex-start',
+    marginBottom: 10
   },
-  logoContainer: {
-    alignItems: "center",
-    marginBottom: 50,
-  },
-  logoText: {
+  headText: {
+    margin: 10,
+    color: '#fff',
     fontSize: 30,
-    fontWeight: "500",
-    opacity: 0.5,
-    marginTop: 10,
+    fontFamily: 'Ubuntu_700Bold'
   },
   Input: {
     marginBottom: 10,
@@ -107,12 +97,11 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     fontSize: 16,
     paddingLeft: 45,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    color: "rgba(255,255,255,0.7)",
+    backgroundColor: "transparent",
     marginHorizontal: 25,
   },
   InputContainer: {
-    marginTop: 10,
+    marginTop: 50,
   },
   Inputicon: {
     position: "absolute",
@@ -125,16 +114,10 @@ const styles = StyleSheet.create({
     left: 37,
   },
   button: {
-    width: WIDTH - 110,
-    height: 45,
-    borderRadius: 25,
-    backgroundColor: "rgba(23, 87, 148,0.9)",
+    width: WIDTH - 150,
     marginTop: 20,
     justifyContent: "center",
-  },
-  btntext: {
-    textAlign: "center",
-    fontSize: 16,
-    color: "rgba(255,255,255,0.7)",
-  },
+    height: 45,
+    fontSize: 30,
+  }
 });

@@ -2,7 +2,6 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-
 import signupScreen from "./src/Screen/Signup-inScreens/signupScreen";
 import signinScreen from "./src/Screen/Signup-inScreens/signinScreen";
 import signupdetailScreen from "./src/Screen/Signup-inScreens/signupdetailScreen";
@@ -14,11 +13,28 @@ import givePermissionScreen from "./src/Screen/permissionScreens/givePermissionS
 import givePermissionScanner from "./src/Screen/permissionScreens/givePermissionScanner";
 import revokePermissionScanner from "./src/Screen/permissionScreens/revokePermissionScanner";
 import viewPermissionScreen from "./src/Screen/permissionScreens/viewPermissionScreen";
-
 import accountScreen from "./src/Screen/accountScreen";
 import { AppProvider } from "./src/Context/appContext";
-
 import { FontAwesome } from "@expo/vector-icons";
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 25,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#0f4c75',
+    accent: '#3282b8',
+  },
+};
+const PermissionStack = createStackNavigator({
+  permission: permissionScreen,
+  revokePermission: revokePermissionScreen,
+  givePermission: givePermissionScreen,
+  QRCodeScanner: givePermissionScanner,
+  Scaner: revokePermissionScanner,
+  viewPermission: viewPermissionScreen,
+})
 
 const SwitchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
@@ -28,29 +44,23 @@ const SwitchNavigator = createSwitchNavigator({
     OtpVerification: otpverificationScreen,
   }),
   mainFlow: createBottomTabNavigator({
-    Permissions: createStackNavigator({
-      permission: {
-        screen: permissionScreen,
-        navigationOptions: {
-          tabBarLabel: "Permissions",
-          tabBarIcon: ({ tintColor }) => (
-            <FontAwesome name="ticket" size={24} color="black" />
-          ),
-        },
-      },
-      revokePermission: revokePermissionScreen,
-      givePermission: givePermissionScreen,
-      QRCodeScanner: givePermissionScanner,
-      Scaner: revokePermissionScanner,
-      viewPermission: viewPermissionScreen,
-    }),
+ 
+    permission: {
+      screen: PermissionStack,
+      navigationOptions: {
+        tabBarLabel: "Permissions",
+        tabBarIcon: ({ tintColor }) => (
+          <FontAwesome name="shield" size={24} color={tintColor} />
+        ),
+      }
+    },
 
     report: {
       screen: reportScreen,
       navigationOptions: {
         tabBarLabel: "Reports",
         tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="file-text" size={24} color="black" />
+          <FontAwesome name="file-text" size={24} color={tintColor} />
         ),
       },
     },
@@ -59,10 +69,23 @@ const SwitchNavigator = createSwitchNavigator({
       navigationOptions: {
         tabBarLabel: "Account",
         tabBarIcon: ({ tintColor }) => (
-          <FontAwesome name="user" size={24} color="black" />
+          <FontAwesome name="user" size={24} color={tintColor} />
         ),
       },
     },
+  }, {
+    tabBarOptions: {
+      activeTintColor: '#0f4c75',
+      inactiveTintColor: '#ccc',
+      showIcon: true,
+      labelStyle: {
+        fontSize: 12,
+      },
+      style: {
+        elevation: 15,
+        borderTopColor: 'transparent'
+      },
+    }
   }),
 });
 
@@ -70,8 +93,10 @@ const AppContainer = createAppContainer(SwitchNavigator);
 
 export default () => {
   return (
-    <AppProvider>
-      <AppContainer />
-    </AppProvider>
+    <PaperProvider theme={theme}>
+      <AppProvider>
+        <AppContainer />
+      </AppProvider>
+    </PaperProvider>
   );
 };

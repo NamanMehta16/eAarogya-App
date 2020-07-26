@@ -10,33 +10,39 @@ import {
   TouchableOpacity,
   ImagePropTypes,
 } from "react-native";
-import bg from "../../../assets/bg1.jpg";
+import Security from "../../../assets/security.png";
 import { FontAwesome } from "@expo/vector-icons";
+import { useFonts, Ubuntu_700Bold } from '@expo-google-fonts/ubuntu'
 const { width: WIDTH } = Dimensions.get("window");
 
 const permissionScreen = (props) => {
-  return (
-    <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => props.navigation.navigate("viewPermission")}
-      >
-        <Text style={styles.btntext}>View Permissions</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => props.navigation.navigate("revokePermission")}
-      >
-        <Text style={styles.btntext}>Give Permission</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => props.navigation.navigate("revokePermission")}
-      >
-        <Text style={styles.btntext}>Revoke Permission</Text>
-      </TouchableOpacity>
-    </ImageBackground>
-  );
+  const [fontsLoaded] = useFonts({ Ubuntu_700Bold })
+  if(!fontsLoaded)
+    return (<Text>Loading...</Text>)
+  else 
+    return (
+      <View style={styles.backgroundContainer}>
+        <Image source={Security} style={{width: 300, height: 300}} />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => props.navigation.navigate("viewPermission")}
+        >
+          <Text style={styles.btntext}>View Permissions</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button} 
+          onPress={() => props.navigation.navigate("givePermission")}
+        >
+          <Text style={styles.btntext}>Give Permission</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => props.navigation.navigate("revokePermission")}
+        >
+          <Text style={styles.btntext}>Revoke Permission</Text>
+        </TouchableOpacity>
+      </View>
+    );
 };
 export default permissionScreen;
 
@@ -45,20 +51,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: null,
-    height: null,
+    backgroundColor: '#fff'
   },
   button: {
     width: WIDTH - 110,
     height: 45,
     borderRadius: 25,
-    backgroundColor: "rgba(23, 87, 148,0.9)",
+    backgroundColor: "#0f4c75",
     marginTop: 20,
+    elevation: 5,
     justifyContent: "center",
   },
   btntext: {
     textAlign: "center",
-    fontSize: 16,
-    color: "rgba(255,255,255,0.7)",
-  },
+    fontSize: 20,
+    color: "#fff",
+    fontFamily: 'Ubuntu_700Bold'
+  }
 });
