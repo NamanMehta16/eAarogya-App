@@ -3,26 +3,31 @@ import {
   StyleSheet,
   Text,
   View,
-  ImageBackground,
-  Image,
   Dimensions,
   TextInput,
   TouchableOpacity,
+  StatusBar
 } from "react-native";
-import bg from "./../../assets/bg1.jpg";
 import webServer from '../api/webServer';
 import AppContext from '../Context/appContext';
+import { FontAwesome } from "@expo/vector-icons";
+import { FlatList } from "react-native-gesture-handler";
+import { useFonts, JosefinSans_600SemiBold } from '@expo-google-fonts/josefin-sans';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width: WIDTH } = Dimensions.get("window");
-import { FontAwesome } from "@expo/vector-icons";
 
 const reportScreen = () => {
+  const [fontsLoaded] = useFonts({ JosefinSans_600SemiBold })
   const { data, signin } = React.useContext(AppContext);
+  const [reports, setReports] = React.useState([]);
+  const [type, setType] = React.useState('');
 
   const getReports = async () => {
     try {
       let response = await webServer.post('report-history', {medicalID: data._id});
-      console.log(response.data.reports);
+      setReports(response.data.data);
+      setType('Reports');
     } catch (e) {
       console.log(e);
     }
@@ -31,21 +36,19 @@ const reportScreen = () => {
   const getPrescs = async () => {
     try {
       let response = await webServer.post('prescription-history', {medicalID: data._id});
-      console.log(response.data.prescs);
+      setReports(response.data.data);
+      setType('Prescriptions');
     } catch (e) {
       console.log(e);
     } 
   }
 
+  if(!fontsLoaded) {
+    return (<Text>Loading</Text>)
+  } else {
   return (
-    <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <View>
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>eAarogya</Text>
-          <Text style={styles.logoText}>Get Records</Text>
-        </View>
-      </View>
-      <View>
+    <View style={styles.backgroundContainer}>
+      <View style={{marginTop: 180}}>
       <TouchableOpacity style={styles.button} onPress={() => getReports()}>
         <Text style={styles.btntext}>Get Reports</Text>
       </TouchableOpacity>
@@ -53,8 +56,34 @@ const reportScreen = () => {
         <Text style={styles.btntext}>Get Prescriptions</Text>
       </TouchableOpacity>
       </View>
-    </ImageBackground>
+      <View style={{width: '100%', height: '100%', borderTopRightRadius: 50, marginTop: 10}}>
+          <LinearGradient
+          colors={['#0f4c75', '#3282b8']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: '100%',
+          }} 
+          />
+          <Text style={{margin: 5, fontSize: 30, color: '#fff', fontFamily: 'JosefinSans_600SemiBold'}}>{type}</Text>
+          {reports.length==0 ? <View/> :
+          <FlatList 
+          contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}
+          data={reports}
+          renderItem={({item}) => (
+            <View style={styles.box}>
+              <Text style={styles.boxText}>{item.date}</Text>
+              <Text style={{...styles.boxText, fontSize: 20, fontWeight: 'bold'}}>{item.info}</Text>
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          />}
+      </View>
+    </View>
   );
+   }
 };
 export default reportScreen;
 
@@ -63,8 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: null,
-    height: null,
+    marginTop: StatusBar.currentHeight
   },
   logo: {
     width: 200,
@@ -109,7 +137,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 25,
     backgroundColor: "rgba(23, 87, 148,0.9)",
-    marginTop: 20,
+    marginTop: 5,
     justifyContent: "center",
   },
   btntext: {
@@ -117,4 +145,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
   },
+  box: {
+    width: WIDTH - 20,
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    margin: 10,
+    padding: 10,
+    elevation: 5
+  },
+  boxText: {
+    color: '#0f4c75'
+  }
 });
