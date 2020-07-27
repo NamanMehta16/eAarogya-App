@@ -12,17 +12,23 @@ import {
 } from "react-native";
 import Security from "../../../assets/security.png";
 import { FontAwesome } from "@expo/vector-icons";
-import { useFonts, Ubuntu_700Bold } from '@expo-google-fonts/ubuntu'
+import { useFonts, Ubuntu_700Bold } from "@expo-google-fonts/ubuntu";
+import Loader from "../Loader";
+
 const { width: WIDTH } = Dimensions.get("window");
 
 const permissionScreen = (props) => {
-  const [fontsLoaded] = useFonts({ Ubuntu_700Bold })
-  if(!fontsLoaded)
-    return (<Text>Loading...</Text>)
-  else 
+  const [fontsLoaded] = useFonts({ Ubuntu_700Bold });
+  if (!fontsLoaded)
+    return (
+      <View>
+        <Loader></Loader>
+      </View>
+    );
+  else
     return (
       <View style={styles.backgroundContainer}>
-        <Image source={Security} style={{width: 300, height: 300}} />
+        <Image source={Security} style={{ width: 300, height: 300 }} />
         <TouchableOpacity
           style={styles.button}
           onPress={() => props.navigation.navigate("viewPermission")}
@@ -30,7 +36,7 @@ const permissionScreen = (props) => {
           <Text style={styles.btntext}>View Permissions</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button} 
+          style={styles.button}
           onPress={() => props.navigation.navigate("givePermission")}
         >
           <Text style={styles.btntext}>Give Permission</Text>
@@ -51,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
   },
   button: {
     width: WIDTH - 110,
@@ -66,6 +72,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     color: "#fff",
-    fontFamily: 'Ubuntu_700Bold'
-  }
+    fontFamily: "Ubuntu_700Bold",
+  },
 });

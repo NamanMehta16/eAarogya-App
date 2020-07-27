@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Image,
-} from "react-native";
-import { TextInput, IconButton, Button } from 'react-native-paper';
+import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
+import { TextInput, IconButton, Button } from "react-native-paper";
 import webServer from "../../api/webServer";
 import AppContext from "../../Context/appContext";
 import { FontAwesome } from "@expo/vector-icons";
-import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from '@expo-google-fonts/ubuntu';
-import GrantPerm from '../../../assets/grant.png';
+import {
+  useFonts,
+  Ubuntu_700Bold,
+  Ubuntu_400Regular,
+} from "@expo-google-fonts/ubuntu";
+import GrantPerm from "../../../assets/grant.png";
+import Loader from "../Loader";
 
 const { width: WIDTH } = Dimensions.get("window");
 
@@ -19,29 +18,40 @@ const givePermissionScreen = (props) => {
   const { data, signin } = React.useContext(AppContext);
   var info = props.navigation.getParam("info", "");
   console.log(info);
-  const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular})
+  const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular });
   const [docId, setdocId] = React.useState(info);
+  const [loader, setloader] = React.useState("false");
 
   const givePermission = async () => {
     try {
+      setloader("true");
       console.log(docId);
       const response = await webServer.post("/give-permission", {
         doctorID: docId,
         username: data.username,
       });
       console.log(response.data.message, response.status);
+      setloader("false");
+      if (response.status == 200) {
+        alert(`The permission has been granted to Doctor having ${docId} Id`);
+        setdocId("");
+      }
     } catch (e) {
       console.log(e);
     }
   };
 
-  if(!fontsLoaded) 
-    return (<Text>Loading...</Text>)
-  else 
+  if (!fontsLoaded || loader == "true") return <Loader></Loader>;
+  else
     return (
       <View style={styles.backgroundContainer}>
         <View style={styles.headContainer}>
-          <IconButton icon="ticket-account" size={35} color='#fff' style={{marginLeft: 10}}/>
+          <IconButton
+            icon="ticket-account"
+            size={35}
+            color="#fff"
+            style={{ marginLeft: 10 }}
+          />
           <Text style={styles.headText}>Give Permission</Text>
         </View>
         <View style={styles.InputContainer}>
@@ -58,9 +68,28 @@ const givePermissionScreen = (props) => {
             onChangeText={(newValue) => setdocId(newValue)}
           />
         </View>
-        <Button mode="contained" style={styles.button} onPress={() => givePermission()}>Submit</Button>
-        <Button mode="contained" contentStyle={{fontFamily: 'Ubuntu_700Bold'}} icon="qrcode" style={styles.button} onPress={() => {props.navigation.replace("QRCodeScanner")}}>Scan</Button>
-        <Image source={GrantPerm} style={{height: 250, width: 250, marginTop:40}}/>
+        <Button
+          mode="contained"
+          style={styles.button}
+          onPress={() => givePermission()}
+        >
+          Submit
+        </Button>
+        <Button
+          mode="contained"
+          contentStyle={{ fontFamily: "Ubuntu_700Bold" }}
+          icon="qrcode"
+          style={styles.button}
+          onPress={() => {
+            props.navigation.replace("QRCodeScanner");
+          }}
+        >
+          Scan
+        </Button>
+        <Image
+          source={GrantPerm}
+          style={{ height: 250, width: 250, marginTop: 40 }}
+        />
       </View>
     );
 };
@@ -72,23 +101,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: null,
     height: null,
-    backgroundColor: '#fff'
+    backgroundColor: "#fff",
   },
   headContainer: {
-    flexDirection: 'row',
-    width: '100%', 
-    height: 150, 
-    backgroundColor: '#0f4c75', 
-    borderBottomLeftRadius: 60, 
-    alignItems: 'center', 
-    justifyContent:'flex-start',
-    marginBottom: 10
+    flexDirection: "row",
+    width: "100%",
+    height: 150,
+    backgroundColor: "#0f4c75",
+    borderBottomLeftRadius: 60,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    marginBottom: 10,
   },
   headText: {
     margin: 10,
-    color: '#fff',
+    color: "#fff",
     fontSize: 30,
-    fontFamily: 'Ubuntu_700Bold'
+    fontFamily: "Ubuntu_700Bold",
   },
   Input: {
     marginBottom: 10,

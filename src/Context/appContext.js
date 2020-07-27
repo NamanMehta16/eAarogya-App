@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
 
   const signin = async (username, password, callback) => {
     try {
+      setData("wait");
       const response = await webserver.post("/login", { username, password });
       if (response.status == 200) {
         setData(response.data.user);
