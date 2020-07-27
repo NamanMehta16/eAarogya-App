@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   headContainer: {
     flexDirection: 'row',
     width: '100%', 
-    height: 100, 
+    height: 150, 
     backgroundColor: '#0f4c75', 
     borderBottomLeftRadius: 60, 
     alignItems: 'center', 

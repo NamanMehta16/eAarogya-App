@@ -16,16 +16,20 @@ import LogIn from "../../../assets/login.png";
 import { FontAwesome } from "@expo/vector-icons";
 import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from '@expo-google-fonts/ubuntu';
 import { LinearGradient } from 'expo-linear-gradient';
+import Loader from '../Loader';
 
 const { width: WIDTH } = Dimensions.get("window");
+const HEIGHT = Dimensions.get('window').height;
 const signinScreen = (props) => {
   const { data, signin } = React.useContext(AppContext);
   const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular})
   const [username, setusername] = React.useState("");
   const [password, setpassword] = React.useState("");
+  const [showLoader, setLoader] = React.useState(false)
   
-  if(!fontsLoaded)
-    return (<Text>Loading...</Text>)
+  if(!fontsLoaded){
+    return (<Loader/>)
+  }
   else
     return (
       <View style={styles.backgroundContainer}>
@@ -84,12 +88,13 @@ const signinScreen = (props) => {
         >
           <Text style={{...styles.btntext, color: '#0f4c75'}}>Sign Up</Text>
         </TouchableOpacity>
-        <View style={{position: 'absolute', backgroundColor: '#0f4c75', bottom: 0, left: -50, width: 100, height: 100, borderRadius: 100}}></View>
-        <View style={{position: 'absolute', backgroundColor: '#0f4c75', bottom: 0, right: -50, width: 100, height: 100, borderRadius: 100}}>
+        <View style={{position: 'absolute', backgroundColor: '#0f4c75', marginTop: HEIGHT-80, left: -50, width: 100, height: 100, borderRadius: 100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#0f4c75', marginTop: HEIGHT-80, right: -50, width: 100, height: 100, borderRadius: 100}}>
         </View>
-        <View style={{position: 'absolute', backgroundColor: '#ddd', bottom: 0, left: 50, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
-        <View style={{position: 'absolute', backgroundColor: '#0f4c75', bottom: 0, left: 50+(WIDTH-100)/3, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
-        <View style={{position: 'absolute', backgroundColor: '#ddd', bottom: 0, left: 50+2*(WIDTH-100)/3, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#ddd', marginTop: HEIGHT-80, left: 50, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#0f4c75', marginTop: HEIGHT-80, left: 50+(WIDTH-100)/3, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#ddd', marginTop: HEIGHT-80, left: 50+2*(WIDTH-100)/3, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
+        {showLoader ? <Loader/> : <View/>}
       </View>
     );
 };

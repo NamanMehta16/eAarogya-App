@@ -34,6 +34,8 @@ const PermissionStack = createStackNavigator({
   QRCodeScanner: givePermissionScanner,
   Scaner: revokePermissionScanner,
   viewPermission: viewPermissionScreen,
+}, {
+  headerMode: 'none',
 })
 
 const SwitchNavigator = createSwitchNavigator({

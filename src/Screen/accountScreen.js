@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from '@expo-google-fonts/ubuntu';
 import AvatarImg from '../../assets/avatar.png';
 import AppContext from '../Context/appContext';
+import Loader from './Loader';
 
 const { width: WIDTH } = Dimensions.get("window");
 
@@ -19,7 +20,7 @@ const accountScreen = (props) => {
   const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular});
 
   if(!fontsLoaded)
-    return (<Text>Loading...</Text>)
+    return (<Loader/>)
   else 
     return (
       <View style={styles.backgroundContainer}>
