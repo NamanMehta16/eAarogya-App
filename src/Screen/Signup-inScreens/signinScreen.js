@@ -6,6 +6,8 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  StatusBar,
+  KeyboardAvoidingView
 } from "react-native";
 import { TextInput } from 'react-native-paper';
 import AppContext from "../../Context/appContext";
@@ -17,6 +19,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Loader from '../Loader';
 
 const { width: WIDTH } = Dimensions.get("window");
+const HEIGHT = Dimensions.get('window').height;
 const signinScreen = (props) => {
   const { data, signin } = React.useContext(AppContext);
   const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular})
@@ -30,7 +33,9 @@ const signinScreen = (props) => {
   else
     return (
       <View style={styles.backgroundContainer}>
-        <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 5}}>
+        <View style={{position: 'absolute', backgroundColor: '#0f4c75', top: 0, right: -50, width: 100, height: 100, borderRadius: 100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#ddd', top: 0, right: 50, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
+        <View style={{flexDirection: 'row', alignSelf: 'flex-start', marginLeft: 25, marginTop: 40}}>
           <Image source={Logo} style={{height: 50, width: 50}} />
           <Text style={{color: '#0f4c75', fontWeight: 'bold', fontSize: 30, marginLeft: 10}}>eAarogya</Text>
         </View>
@@ -83,6 +88,12 @@ const signinScreen = (props) => {
         >
           <Text style={{...styles.btntext, color: '#0f4c75'}}>Sign Up</Text>
         </TouchableOpacity>
+        <View style={{position: 'absolute', backgroundColor: '#0f4c75', marginTop: HEIGHT-80, left: -50, width: 100, height: 100, borderRadius: 100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#0f4c75', marginTop: HEIGHT-80, right: -50, width: 100, height: 100, borderRadius: 100}}>
+        </View>
+        <View style={{position: 'absolute', backgroundColor: '#ddd', marginTop: HEIGHT-80, left: 50, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#0f4c75', marginTop: HEIGHT-80, left: 50+(WIDTH-100)/3, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
+        <View style={{position: 'absolute', backgroundColor: '#ddd', marginTop: HEIGHT-80, left: 50+2*(WIDTH-100)/3, width: (WIDTH-100)/3, height: 100, borderRadius: WIDTH-100}}></View>
         {showLoader ? <Loader/> : <View/>}
       </View>
     );
@@ -95,17 +106,17 @@ signinScreen.navigationOptions = {
 const styles = StyleSheet.create({
   backgroundContainer: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    marginTop: StatusBar.currentHeight
   },
   logo: {
-    width: 300,
-    height: 300,
+    width: 200,
+    height: 200,
   },
   logoContainer: {
     alignItems: "center",
-    marginBottom: 30,
+    marginVertical: 25
   },
   logoText: {
     fontSize: 30,
