@@ -16,7 +16,7 @@ export default function App(props) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     var info = data;
-    props.navigation.navigate("givePermission", { info });
+    props.navigation.replace("givePermission", { info });
   };
 
   if (hasPermission === null) {
