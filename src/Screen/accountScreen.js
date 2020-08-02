@@ -39,9 +39,9 @@ const accountScreen = (props) => {
         ></View>
         <Avatar.Image source={AvatarImg} size={150} />
         <Text style={{ ...styles.text, fontSize: 30 }}>{data.name}</Text>
-        <Text style={{ ...styles.text, marginTop: 50 }}>
+        {/* <Text style={{ ...styles.text, marginTop: 50 }}>
           Medical ID: {data._id}
-        </Text>
+        </Text> */}
         <Text style={styles.text}>Username: {data.username}</Text>
         <Text style={styles.text}>Email: {data.email}</Text>
         <TouchableOpacity

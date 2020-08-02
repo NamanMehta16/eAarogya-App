@@ -1,89 +1,135 @@
 import React from "react";
 import {
   Text,
-  Button,
   View,
-  ImageBackground,
   StyleSheet,
   Image,
-  TextInput,
   Dimensions,
   TouchableOpacity,
-  ImagePropTypes,
+  StatusBar,
+  KeyboardAvoidingView,
 } from "react-native";
-import bg from "../../../assets/bg1.jpg";
-import logo from "../../../assets/logo.png";
-
+import { TextInput } from "react-native-paper";
+import AppContext from "../../Context/appContext";
+import Logo from "../../../assets/logo.png";
+import aadhaar from "../../../assets/aadhaar.png";
 import { FontAwesome } from "@expo/vector-icons";
+import {
+  useFonts,
+  Ubuntu_700Bold,
+  Ubuntu_400Regular,
+} from "@expo-google-fonts/ubuntu";
+import { LinearGradient } from "expo-linear-gradient";
+import Loader from "../Loader";
 
 const { width: WIDTH } = Dimensions.get("window");
-
+const HEIGHT = Dimensions.get("window").height;
 const signupScreen = (props) => {
+  const { data, signin } = React.useContext(AppContext);
+  const [fontsLoaded] = useFonts({ Ubuntu_700Bold, Ubuntu_400Regular });
   const [aadhar, setaadhar] = React.useState("");
-  return (
-    <ImageBackground source={bg} style={styles.backgroundContainer}>
-      <View style={styles.logoContainer}>
-        <Image source={logo} style={styles.logo} />
-        <Text style={styles.logoText}>eAarogya</Text>
-      </View>
-      <View style={styles.InputContainer}>
-        <FontAwesome
-          style={styles.Inputicon}
-          name="vcard"
-          size={25}
-          color="grey"
-        />
-        <TextInput
-          style={styles.Input}
-          placeholder={"Aadhar Number"}
-          placeholderTextColor={"white"}
-          underlineColorAndroid="transparent"
-          onChangeText={(newValue) => setaadhar(newValue)}
-        />
-      </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => props.navigation.navigate("OtpVerification")}
-      >
-        <Text style={styles.btntext}>Enter</Text>
-      </TouchableOpacity>
-    </ImageBackground>
-  );
+  if (!fontsLoaded) {
+    return <Loader />;
+  } else
+    return (
+      <View style={styles.backgroundContainer}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignSelf: "flex-start",
+            marginLeft: 25,
+            marginTop: 40,
+          }}
+        >
+          <Image source={Logo} style={{ height: 50, width: 50 }} />
+          <Text
+            style={{
+              color: "#0f4c75",
+              fontWeight: "bold",
+              fontSize: 30,
+              marginLeft: 10,
+            }}
+          >
+            eAarogya
+          </Text>
+        </View>
+        <View style={styles.logoContainer}>
+          <Image source={aadhaar} style={styles.logo} />
+        </View>
+        <Text
+          style={{
+            fontSize: 30,
+            color: "#0f4c75",
+            fontFamily: "Ubuntu_700Bold",
+            marginBottom: 10,
+            textAlign: "center",
+            marginHorizontal: 5,
+          }}
+        >
+          Create my e-Card
+        </Text>
+        <View style={styles.InputContainer}>
+          <FontAwesome
+            style={styles.Inputicon}
+            name="vcard"
+            size={28}
+            color="grey"
+          />
+          <TextInput
+            style={styles.Input}
+            placeholder={"Enter your Aadhaar number"}
+            placeholderTextColor={"#0f4c75"}
+            onChangeText={(newValue) => setaadhar(newValue)}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            props.navigation.navigate("OtpVerification");
+          }}
+        >
+          <Text style={styles.btntext}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+    );
 };
-export default signupScreen;
+
+signupScreen.navigationOptions = {
+  headerShown: false,
+};
 
 const styles = StyleSheet.create({
   backgroundContainer: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    width: null,
-    height: null,
+    backgroundColor: "#fff",
+    marginTop: StatusBar.currentHeight,
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 300,
+    height: 300,
   },
   logoContainer: {
     alignItems: "center",
-    marginBottom: 50,
+    marginVertical: 5,
   },
   logoText: {
     fontSize: 30,
     fontWeight: "500",
     opacity: 0.5,
-    marginTop: 10,
+    marginTop: 0,
   },
   Input: {
     width: WIDTH - 55,
     height: 45,
-    borderRadius: 25,
     fontSize: 16,
+    fontFamily: "Ubuntu_400Regular",
     paddingLeft: 45,
-    backgroundColor: "rgba(0,0,0,0.35)",
-    color: "rgba(255,255,255,0.7)",
     marginHorizontal: 25,
+    zIndex: -1,
+    backgroundColor: "transparent",
   },
   InputContainer: {
     marginTop: 10,
@@ -92,18 +138,24 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 8,
     left: 37,
+    color: "#0f4c75",
+    zIndex: 2,
   },
   button: {
     width: WIDTH - 110,
     height: 45,
     borderRadius: 25,
-    backgroundColor: "rgba(23, 87, 148,0.9)",
+    backgroundColor: "#0f4c75",
     marginTop: 20,
     justifyContent: "center",
+    elevation: 5,
   },
   btntext: {
     textAlign: "center",
-    fontSize: 16,
-    color: "rgba(255,255,255,0.7)",
+    fontSize: 18,
+    color: "#fff",
+    fontFamily: "Ubuntu_700Bold",
   },
 });
+
+export default signupScreen;

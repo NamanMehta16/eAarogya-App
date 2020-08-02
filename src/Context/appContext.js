@@ -21,6 +21,8 @@ export const AppProvider = ({ children }) => {
       }
     } catch (e) {
       console.log(e);
+      setData("h");
+      alert("Username or password is wrong");
     }
   };
 
